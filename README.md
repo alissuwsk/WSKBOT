@@ -29,7 +29,11 @@ pkg install nodejs npm git ffmpeg python -y
 ```bash
 git clone https://github.com/alissuwsk/wskbot.git
 cd wskbot
-npm install
+```
+
+**Instale as dependências (com suporte a Termux):**
+```bash
+npm install --cpu=wasm32 sharp
 ```
 
 **3. Configure a API Key** (`utils/key.json`)
