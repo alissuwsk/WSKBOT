@@ -1,5 +1,5 @@
 {
-  "name": "wskbot-new",
+  "name": "wskbot",
   "version": "1.0.0",
   "description": "Bot WhatsApp com comandos personalizados, gerenciamento e integração de mídia.",
   "main": "index.js",
