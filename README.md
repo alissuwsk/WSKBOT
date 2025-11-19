@@ -22,7 +22,7 @@ Um bot WhatsApp completo e poderoso com suporte a múltiplos comandos, gerenciam
 **1. Instale as dependências do sistema**
 ```bash
 pkg update && pkg upgrade -y
-pkg install nodejs npm git ffmpeg python -y
+pkg install nodejs git ffmpeg python -y
 ```
 
 **2. Configure o diretório padrão (sdcard)**
@@ -49,6 +49,9 @@ Feche e abra o Termux novamente. Ele vai abrir direto na sdcard!
 **3. Clone e configure**
 ```bash
 git clone https://github.com/alissuwsk/wskbot.git
+```
+**. Caso nao esteja na pasta do bot, use:**
+```bash
 cd wskbot
 ```
 
