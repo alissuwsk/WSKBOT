@@ -25,7 +25,28 @@ pkg update && pkg upgrade -y
 pkg install nodejs npm git ffmpeg python -y
 ```
 
-**2. Clone e configure**
+**2. Configure o diretório padrão (sdcard)**
+
+**Primeiro, dê permissão ao Termux:**
+```bash
+termux-setup-storage
+```
+
+Pressione "Allow" quando pedir permissão no seu celular.
+
+**Depois, mude para o diretório sdcard:**
+```bash
+cd /sdcard
+```
+
+**Configure para abrir sempre neste diretório:**
+```bash
+echo "cd /sdcard" >> ~/.bashrc
+```
+
+Feche e abra o Termux novamente. Ele vai abrir direto na sdcard!
+
+**3. Clone e configure**
 ```bash
 git clone https://github.com/alissuwsk/wskbot.git
 cd wskbot
@@ -36,7 +57,7 @@ cd wskbot
 npm install --cpu=wasm32 sharp
 ```
 
-**3. Configure a API Key** (`utils/key.json`)
+**4. Configure a API Key** (`utils/key.json`)
 ```bash
 nano utils/key.json
 ```
@@ -48,7 +69,7 @@ Adicione:
 }
 ```
 
-**4. Configure o Bot** (`config.json`)
+**5. Configure o Bot** (`config.json`)
 ```bash
 nano config.json
 ```
@@ -63,7 +84,7 @@ Adicione:
 }
 ```
 
-**5. Inicie o Bot**
+**6. Inicie o Bot**
 ```bash
 npm start
 ```
