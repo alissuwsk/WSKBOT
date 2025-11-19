@@ -20,6 +20,7 @@ Um bot WhatsApp completo e poderoso com suporte a múltiplos comandos, gerenciam
 ### 📱 Instalação no Termux (Android) - RECOMENDADO
 
 **1. Instale as dependências do sistema**
+e
 **Instale esse termux ou algum de sua preferencia que nao seja o da Play Store**
 https://github.com/termux/termux-app/releases/download/v0.119.0-beta.3/termux-app_v0.119.0-beta.3+apt-android-7-github-debug_universal.apk
 
