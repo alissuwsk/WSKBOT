@@ -48,7 +48,7 @@ cd /sdcard
 echo "cd /sdcard/wskbot" >> ~/.bashrc
 ```
 
-Feche e abra o Termux novamente. Ele vai abrir direto na sdcard!
+Feche e abra o Termux novamente. Ele vai abrir direto no diretorio do Bot!
 
 **3. Clone e configure**
 ```bash
