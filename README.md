@@ -210,7 +210,7 @@ ffmpeg -version
 npm start
 ```
 
-Escaneie o código QR com seu WhatsApp para conectar!
+Pareie o codigo com seu Whatsapp para se conectar!
 
 ---
 
