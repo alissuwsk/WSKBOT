@@ -14,6 +14,31 @@ function log(msg, cor = 'reset') {
   console.log(`${cores[cor]}${msg}${cores.reset}`);
 }
 
+// Pastas que contêm dados/configurações do usuário (JSONs NÃO devem ser atualizados)
+const pastasDoUsuario = [
+  'database/saves',
+  'database/diversao/gold',
+  'database/antiflood',
+  'database/menuADM',
+  'database/QRCODE'
+];
+
+function ehArquivoDoBotASeAtualizar(caminhoArquivo) {
+  // JSONs em pastas de configuração do usuário NÃO atualiza
+  for (const pasta of pastasDoUsuario) {
+    if (caminhoArquivo.startsWith(pasta)) {
+      return false;
+    }
+  }
+  // Apenas raiz e database/comands/menubuttons JSONs são atualizados
+  if (caminhoArquivo.endsWith('.json')) {
+    return caminhoArquivo === 'config.json' || 
+           caminhoArquivo === 'multiprefix.json' ||
+           caminhoArquivo.startsWith('database/comands/menubuttons');
+  }
+  return true;
+}
+
 async function atualizar() {
   try {
     log('\n📦 Iniciando atualização...', 'azul');
@@ -38,18 +63,18 @@ async function atualizar() {
     }
     
     const todosArquivos = diff.split('\n').filter(a => a);
-    const arquivosAtualizar = todosArquivos.filter(a => a.endsWith('.js') || a.endsWith('.md') || a.endsWith('.txt'));
-    const arquivosJson = todosArquivos.filter(a => a.endsWith('.json'));
+    // Filtrar apenas arquivos que DEVEM ser atualizados
+    const arquivosAtualizaveis = todosArquivos.filter(ehArquivoDoBotASeAtualizar);
     
-    if (arquivosAtualizar.length === 0 && arquivosJson.length === 0) {
+    if (arquivosAtualizaveis.length === 0) {
       log('✅ Seu projeto já está atualizado!', 'verde');
       return;
     }
     
-    log('📝 Processando atualizações...', 'amarelo');
+    log(`⬇️  Atualizando ${arquivosAtualizaveis.length} arquivo(s)...`, 'amarelo');
     
-    // Atualizar arquivos .js, .md, .txt
-    for (const arquivo of arquivosAtualizar) {
+    // Atualizar apenas arquivos selecionados
+    for (const arquivo of arquivosAtualizaveis) {
       try {
         const conteudo = execSync(`git show origin/main:${arquivo}`, { encoding: 'utf-8', maxBuffer: 10 * 1024 * 1024 });
         const caminhoCompleto = path.join(__dirname, arquivo);
@@ -62,27 +87,6 @@ async function atualizar() {
         
         fs.writeFileSync(caminhoCompleto, conteudo, 'utf-8');
         log(`   ✓ ${arquivo}`, 'verde');
-      } catch (erro) {
-        log(`   ✗ ${arquivo}: ${erro.message}`, 'vermelho');
-      }
-    }
-    
-    // JSON: criar apenas se não existir
-    for (const arquivo of arquivosJson) {
-      try {
-        const caminhoCompleto = path.join(__dirname, arquivo);
-        
-        if (fs.existsSync(caminhoCompleto)) {
-          log(`   ⊘ ${arquivo}`, 'amarelo');
-        } else {
-          const conteudo = execSync(`git show origin/main:${arquivo}`, { encoding: 'utf-8', maxBuffer: 10 * 1024 * 1024 });
-          const diretorio = path.dirname(caminhoCompleto);
-          if (!fs.existsSync(diretorio)) {
-            fs.mkdirSync(diretorio, { recursive: true });
-          }
-          fs.writeFileSync(caminhoCompleto, conteudo, 'utf-8');
-          log(`   ✓ ${arquivo}`, 'verde');
-        }
       } catch (erro) {
         log(`   ✗ ${arquivo}: ${erro.message}`, 'vermelho');
       }
