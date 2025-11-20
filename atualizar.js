@@ -30,7 +30,7 @@ async function atualizar() {
     execSync('git fetch origin main', { stdio: 'inherit' });
     
     log('📊 Comparando versões...', 'amarelo');
-    const diff = execSync('git diff --name-only origin/main', { encoding: 'utf-8' }).trim();
+    const diff = execSync('git diff --name-only --no-renames origin/main', { encoding: 'utf-8', maxBuffer: 10 * 1024 * 1024 }).trim();
     
     if (!diff) {
       log('✅ Seu projeto já está atualizado!', 'verde');
@@ -46,22 +46,12 @@ async function atualizar() {
       return;
     }
     
-    if (arquivosAtualizar.length > 0) {
-      log(`\n📝 Arquivos que serão atualizados (${arquivosAtualizar.length}):`, 'amarelo');
-      arquivosAtualizar.forEach(arq => log(`   • ${arq}`, 'azul'));
-    }
-    
-    if (arquivosJson.length > 0) {
-      log(`\n⚙️  Arquivos JSON (serão criados apenas se não existirem - ${arquivosJson.length}):`, 'amarelo');
-      arquivosJson.forEach(arq => log(`   • ${arq}`, 'azul'));
-    }
-    
-    log('\n⬇️  Processando arquivos...', 'amarelo');
+    log('📝 Processando atualizações...', 'amarelo');
     
     // Atualizar arquivos .js, .md, .txt
     for (const arquivo of arquivosAtualizar) {
       try {
-        const conteudo = execSync(`git show origin/main:${arquivo}`, { encoding: 'utf-8' });
+        const conteudo = execSync(`git show origin/main:${arquivo}`, { encoding: 'utf-8', maxBuffer: 10 * 1024 * 1024 });
         const caminhoCompleto = path.join(__dirname, arquivo);
         
         // Criar diretório se não existir
@@ -71,9 +61,9 @@ async function atualizar() {
         }
         
         fs.writeFileSync(caminhoCompleto, conteudo, 'utf-8');
-        log(`   ✓ ${arquivo} (atualizado)`, 'verde');
+        log(`   ✓ ${arquivo}`, 'verde');
       } catch (erro) {
-        log(`   ✗ Erro ao atualizar ${arquivo}: ${erro.message}`, 'vermelho');
+        log(`   ✗ ${arquivo}: ${erro.message}`, 'vermelho');
       }
     }
     
@@ -83,18 +73,18 @@ async function atualizar() {
         const caminhoCompleto = path.join(__dirname, arquivo);
         
         if (fs.existsSync(caminhoCompleto)) {
-          log(`   ⊘ ${arquivo} (já existe, não sobrescrito)`, 'amarelo');
+          log(`   ⊘ ${arquivo}`, 'amarelo');
         } else {
-          const conteudo = execSync(`git show origin/main:${arquivo}`, { encoding: 'utf-8' });
+          const conteudo = execSync(`git show origin/main:${arquivo}`, { encoding: 'utf-8', maxBuffer: 10 * 1024 * 1024 });
           const diretorio = path.dirname(caminhoCompleto);
           if (!fs.existsSync(diretorio)) {
             fs.mkdirSync(diretorio, { recursive: true });
           }
           fs.writeFileSync(caminhoCompleto, conteudo, 'utf-8');
-          log(`   ✓ ${arquivo} (criado)`, 'verde');
+          log(`   ✓ ${arquivo}`, 'verde');
         }
       } catch (erro) {
-        log(`   ✗ Erro ao processar ${arquivo}: ${erro.message}`, 'vermelho');
+        log(`   ✗ ${arquivo}: ${erro.message}`, 'vermelho');
       }
     }
     
