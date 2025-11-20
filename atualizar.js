@@ -1,1 +1,115 @@
-(function(P,z){const q=P();function N(P,z,q,F){return M(P-0x269,F);}function G(P,z,q,F){return M(q- -0x15,P);}while(!![]){try{const F=-parseInt(G(0x1e2,0x1d2,0x1d0,0x1e7))/0x1*(parseInt(G(0x1ba,0x1b4,0x1ce,0x1aa))/0x2)+parseInt(G(0x201,0x1bf,0x1e0,0x1d0))/0x3+parseInt(G(0x1f4,0x1fe,0x1f1,0x204))/0x4+parseInt(N(0x46b,0x44c,0x474,0x457))/0x5+-parseInt(G(0x1b8,0x1ab,0x1bc,0x1a1))/0x6*(parseInt(N(0x476,0x498,0x46f,0x47d))/0x7)+parseInt(N(0x468,0x45b,0x45f,0x46c))/0x8*(parseInt(N(0x45b,0x43b,0x478,0x46c))/0x9)+-parseInt(G(0x1af,0x1af,0x1c8,0x1dd))/0xa;if(F===z){break;}else{q['push'](q['shift']());}}catch(g){q['push'](q['shift']());}}}(X,0x48bbf));const fs=require('fs');function p(P,z,q,F){return M(z-0x26c,q);}const path=require('path');function V(P,z,q,F){return M(z-0x291,q);}const {execSync}=require(p(0x467,0x45c,0x47a,0x44e));const cores={'reset':p(0x47e,0x473,0x469,0x451),'verde':V(0x49c,0x499,0x4b0,0x483),'vermelho':V(0x461,0x46d,0x47c,0x479),'amarelo':V(0x491,0x488,0x48f,0x491),'azul':p(0x45d,0x456,0x448,0x435)};function M(P,z){const q=X();M=function(F,g){F=F-0x1cb;let t=q[F];if(M['TPAETK']===undefined){var j=function(c){const o='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let e='';let r='';for(let I=0x0,J,v,s=0x0;v=c['charAt'](s++);~v&&(J=I%0x4?J*0x40+v:v,I++%0x4)?e+=String['fromCharCode'](0xff&J>>(-0x2*I&0x6)):0x0){v=o['indexOf'](v);}for(let W=0x0,A=e['length'];W<A;W++){r+='%'+('00'+e['charCodeAt'](W)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(r);};M['PaYWFo']=j;P=arguments;M['TPAETK']=!![];}const L=q[0x0];const Z=F+L;const O=P[Z];if(!O){t=M['PaYWFo'](t);P[Z]=t;}else{t=O;}return t;};return M(P,z);}function log(P,z=V(0x476,0x460,0x471,0x464)){function X1(P,z,q,F){return V(P-0x2c,F-0x50,P,F-0x15b);}function X0(P,z,q,F){return p(P-0x33,z- -0x186,P,F-0x113);}console[X0(0x2f2,0x2f1,0x2fc,0x2ff)](''+cores[z]+P+cores[X0(0x2c9,0x2b5,0x2ca,0x2c9)]);}async function atualizar(){function X3(P,z,q,F){return p(P-0x117,F- -0x301,z,F-0x177);}const P={'NnEdb':X2(-0x9a,-0x91,-0x72,-0x82),'YsDxR':X3(0x13d,0x148,0x148,0x158),'zGYln':function(z,q,F){return z(q,F);},'GGbGt':X2(-0x54,-0x56,-0x8c,-0x74),'ZYBJr':function(z,q){return z===q;},'amQGC':X2(-0x4d,-0x5e,-0x39,-0x5b),'infLg':'cQhaS','fVhsh':function(z,q){return z>q;},'stezu':function(z,q,F){return z(q,F);},'yICCx':'vermelho','XDHtG':X3(0x13e,0x164,0x134,0x149),'aVAhh':X3(0x132,0x152,0x13c,0x145),'HcyBh':X2(-0x75,-0x81,-0x89,-0x67),'uNQNF':function(z,q,F){return z(q,F);}};function X2(P,z,q,F){return V(P-0x1ec,F- -0x4e0,z,F-0x1e6);}try{log(X2(-0x54,-0x8b,-0x60,-0x6b),P[X3(0x13c,0x168,0x146,0x14b)]);P[X2(-0x48,-0x28,-0x25,-0x45)](log,X2(-0x73,-0x3e,-0x64,-0x53),P[X2(-0x84,-0x78,-0x97,-0x7a)]);execSync(X3(0x12b,0x13b,0x155,0x14d),{'stdio':'inherit'});log(P['GGbGt'],'amarelo');const z=execSync(X2(-0x8d,-0x5f,-0x8c,-0x76),{'encoding':'utf-8'})[X3(0x182,0x174,0x15d,0x177)]();if(!z){log(X2(-0x6f,-0x69,-0x79,-0x83),X3(0x158,0x14b,0x13f,0x15f));return;}const q=z[X3(0x150,0x141,0x12f,0x136)]('\x0a')[X2(-0x6c,-0x4b,-0x69,-0x4e)](t=>t);const F=q[X2(-0x4b,-0x44,-0x71,-0x4e)](t=>t[X3(0x140,0x142,0x127,0x13f)](X2(-0x77,-0x89,-0x57,-0x6e))||t['endsWith']('.md')||t[X2(-0x92,-0x8a,-0x7a,-0x7b)](X3(0x165,0x153,0x177,0x16e)));const g=q[X2(-0x55,-0x38,-0x4e,-0x4e)](t=>t[X2(-0x99,-0x80,-0x8a,-0x7b)](X2(-0x22,-0x4f,-0x48,-0x3f)));if(F[X3(0x197,0x159,0x176,0x174)]===0x0&&P[X3(0x182,0x171,0x17e,0x165)](g[X3(0x164,0x15e,0x159,0x174)],0x0)){log(X2(-0x69,-0x88,-0x74,-0x83),P[X2(-0x9d,-0x6a,-0x93,-0x7d)]);return;}if(F['length']>0x0){if(X2(-0x4f,-0x79,-0x4d,-0x66)!==P[X2(-0x62,-0x6c,-0x61,-0x57)]){log('\x0a📝\x20Arquivos\x20que\x20serão\x20atualizados\x20('+F[X2(-0x22,-0x23,-0x46,-0x46)]+'):',X2(-0x84,-0x6a,-0x63,-0x82));F['forEach'](t=>log(X3(0x18a,0x199,0x18a,0x17a)+t,'azul'));}else{q(X3(0x181,0x187,0x17f,0x164)+F+X3(0x142,0x16d,0x146,0x166),P[X3(0x133,0x134,0x14a,0x140)]);}}if(P[X3(0x16d,0x15d,0x182,0x169)](g[X2(-0x39,-0x4a,-0x62,-0x46)],0x0)){P['zGYln'](log,X3(0x17a,0x163,0x144,0x156)+g['length']+'):',P[X2(-0x65,-0x6a,-0x94,-0x7a)]);g['forEach'](j=>log(X2(-0x2d,-0x52,-0x4a,-0x40)+j,X3(0x16c,0x17b,0x146,0x158)));}log(X3(0x121,0x155,0x150,0x142),X2(-0x71,-0x7f,-0x7f,-0x82));for(const j of F){try{const L=execSync('git\x20show\x20origin/main:'+j,{'encoding':X3(0x136,0x161,0x14f,0x145)});const Z=path['join'](__dirname,j);const O=path[X3(0x13d,0x131,0x152,0x141)](Z);if(!fs['existsSync'](O)){fs[X2(-0x7d,-0x5c,-0x45,-0x5c)](O,{'recursive':!![]});}fs['writeFileSync'](Z,L,'utf-8');P[X3(0x179,0x170,0x16f,0x157)](log,'\x20\x20\x20✓\x20'+j+X3(0x125,0x153,0x157,0x13b),P[X3(0x132,0x11f,0x155,0x13d)]);}catch(c){if(X2(-0x4c,-0x6a,-0x31,-0x4b)!==X3(0x18d,0x15e,0x161,0x16f)){const e=o('git\x20show\x20origin/main:'+e,{'encoding':X3(0x15b,0x144,0x127,0x145)});const r=r[X3(0x134,0x13f,0x13d,0x152)](I,J);const I=v['dirname'](r);if(!s[X2(-0x8b,-0x77,-0x80,-0x7c)](I)){n[X2(-0x3c,-0x5e,-0x6d,-0x5c)](I,{'recursive':!![]});}A[X2(-0x61,-0x51,-0x4b,-0x41)](r,e,X2(-0x5c,-0x6f,-0x7e,-0x75));E(X2(-0x71,-0x71,-0x7b,-0x70)+b+X2(-0x91,-0x65,-0x7c,-0x7f),X3(0x149,0x165,0x181,0x15f));}else{log(X2(-0x4a,-0x80,-0x5d,-0x61)+j+':\x20'+c['message'],P[X2(-0x5a,-0x41,-0x21,-0x3e)]);}}}for(const e of g){try{const r=path['join'](__dirname,e);if(fs[X3(0x13b,0x151,0x155,0x13e)](r)){log(X2(-0x6b,-0x6d,-0x73,-0x56)+e+X2(-0x6d,-0x72,-0x66,-0x54),P[X3(0x15a,0x164,0x142,0x140)]);}else{if(P[X3(0x17d,0x18a,0x19d,0x17d)]===X2(-0x46,-0x6f,-0x7f,-0x5e)){t['log'](''+j[L]+Z+O['reset']);}else{const J=execSync(X2(-0x3b,-0x48,-0x65,-0x52)+e,{'encoding':'utf-8'});const v=path['dirname'](r);if(!fs[X3(0x14e,0x12b,0x156,0x13e)](v)){fs[X3(0x175,0x175,0x17c,0x15e)](v,{'recursive':!![]});}fs['writeFileSync'](r,J,P[X2(-0x58,-0x56,-0x35,-0x59)]);P[X3(0x14f,0x151,0x158,0x157)](log,X2(-0x50,-0x85,-0x59,-0x70)+e+'\x20(criado)',X2(-0x76,-0x58,-0x50,-0x5b));}}}catch(s){P[X3(0x163,0x197,0x15b,0x175)](log,X3(0x159,0x16d,0x12e,0x151)+e+':\x20'+s[X3(0x13f,0x148,0x161,0x143)],'vermelho');}}P[X2(-0x2a,-0x42,-0x2b,-0x45)](log,'\x0a✅\x20Atualização\x20concluída\x20com\x20sucesso!',X3(0x174,0x13b,0x17e,0x15f));log(P[X2(-0x56,-0x64,-0x41,-0x60)],X3(0x15f,0x136,0x143,0x158));}catch(W){P[X2(-0x58,-0x44,-0x69,-0x4f)](log,'❌\x20Erro\x20durante\x20a\x20atualização:\x20'+W[X3(0x159,0x138,0x13c,0x143)],X2(-0x3f,-0x68,-0x46,-0x4a));process[X2(-0x70,-0xa4,-0x5f,-0x81)](0x1);}}function X(){const X4=['DMvYBwvSAg8','mtiYotq4ngzRwujXsa','g1SWBq','g1SZmM0','BgvUz3rO','EKDzBg4','Bg9N','DhjPBq','nJKWotm1y2PpB0n1','D3jPDgvgAwXLu3LUyW','icaG4OcIia','lMPZB24','EuLdq3G','weriDeC','C3bSAxq','4PYfifnLDsbWCM9QzxrVigRdOsbLC3tdOsbHDhvHBgL6ywrViq','yw1HCMvSBW','zxHPDa','CMvZzxq','icHHDhvHBgL6ywrVkq','nMz0uK1XAW','yw1rr0m','zxHPC3rZu3LUyW','zw5KC1DPDgG','tM5fzgi','zgLYBMfTzq','cUkSH++4JYaGuhjVy2vZC2fUzg8GyxjXDwL2B3mUlI4','BwvZC2fNzq','z2L0igrPzMyGls1Uyw1Llw9UBhKGB3jPz2LUl21HAw4','DxrMltG','8j+tIIbdB21WyxjHBMrVihzLCNpdTwvZlI4U','g1SZmw0','mJa4otq1mffTAeXmsG','y1LutfC','icaG4PYtia','wxneEfi','lMPZ','z2L0igzLDgnOig9YAwDPBIbTywLU','otC4EKLkwg1x','cVcFK6yGsw5Py2LHBMrVigf0DwfSAxPHW6FdO28UlI4','nJy5CvvWr2ji','icaG4PYxievYCM8Gyw8GChjVy2vZC2fYia','AM9PBG','uMvPBMLJAwuGBYbIB3qGCgfYysbHCgXPy2fYigfZig11zgfUW6DHCY4k','vvfkCLO','g1SZnM0','cUkAME+4JYaGqxjXDwL2B3mGsLnptIaOC2vYW6nVignYAwfKB3mGyxbLBMfZihnLig7dO28GzxHPC3rPCMvTic0G','C3rLENu','yxP1Ba','icaG4PYxievYCM8Gyw8Gyxr1ywXPEMfYia','sgn5qMG','y2HPBgrFChjVy2vZCW','sxH1Dfq','mta4ChnrzKTk','BwTKAxjtEw5J','DMvYzgu','mZyZnZmYwNnKsMXX','yvzbAgG','g1SZm20','Aw5MtgC','icaG4OQyia','wLLcsNi','icHQW6eGzxHPC3rLlcbUW6nVihnVyNjLC2nYAxrVkq','8j+uHcbwzxjPzMLJyw5KBYbTDwrHBSoNyxmGBM8Gr2L0shvIlI4U','z2L0ihnOB3CGB3jPz2LUl21HAw46','zLzOC2G','mtqWnZC2t3HIA2jA','Du5rtKy','zMLSDgvY','mtq2ndy1nvrfy29Qrq','lNr4Da','zLfYuKK'];X=function(){return X4;};return X();}atualizar();
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+const cores = {
+  reset: '\x1b[0m',
+  verde: '\x1b[32m',
+  vermelho: '\x1b[31m',
+  amarelo: '\x1b[33m',
+  azul: '\x1b[36m'
+};
+
+function log(msg, cor = 'reset') {
+  console.log(`${cores[cor]}${msg}${cores.reset}`);
+}
+
+function configurarGitTermux() {
+  try {
+    const repoPath = __dirname;
+    execSync(`git config --global --add safe.directory ${repoPath}`, { stdio: 'pipe' });
+  } catch (e) {
+    // Já pode estar configurado, ignorar erro
+  }
+}
+
+async function atualizar() {
+  try {
+    log('\n📦 Iniciando atualização...', 'azul');
+    
+    // Configurar git para Termux/Android se necessário
+    configurarGitTermux();
+    
+    log('🔄 Verificando mudanças no GitHub...', 'amarelo');
+    execSync('git fetch origin main', { stdio: 'inherit' });
+    
+    log('📊 Comparando versões...', 'amarelo');
+    const diff = execSync('git diff --name-only origin/main', { encoding: 'utf-8' }).trim();
+    
+    if (!diff) {
+      log('✅ Seu projeto já está atualizado!', 'verde');
+      return;
+    }
+    
+    const todosArquivos = diff.split('\n').filter(a => a);
+    const arquivosAtualizar = todosArquivos.filter(a => a.endsWith('.js') || a.endsWith('.md') || a.endsWith('.txt'));
+    const arquivosJson = todosArquivos.filter(a => a.endsWith('.json'));
+    
+    if (arquivosAtualizar.length === 0 && arquivosJson.length === 0) {
+      log('✅ Seu projeto já está atualizado!', 'verde');
+      return;
+    }
+    
+    if (arquivosAtualizar.length > 0) {
+      log(`\n📝 Arquivos que serão atualizados (${arquivosAtualizar.length}):`, 'amarelo');
+      arquivosAtualizar.forEach(arq => log(`   • ${arq}`, 'azul'));
+    }
+    
+    if (arquivosJson.length > 0) {
+      log(`\n⚙️  Arquivos JSON (serão criados apenas se não existirem - ${arquivosJson.length}):`, 'amarelo');
+      arquivosJson.forEach(arq => log(`   • ${arq}`, 'azul'));
+    }
+    
+    log('\n⬇️  Processando arquivos...', 'amarelo');
+    
+    // Atualizar arquivos .js, .md, .txt
+    for (const arquivo of arquivosAtualizar) {
+      try {
+        const conteudo = execSync(`git show origin/main:${arquivo}`, { encoding: 'utf-8' });
+        const caminhoCompleto = path.join(__dirname, arquivo);
+        
+        // Criar diretório se não existir
+        const diretorio = path.dirname(caminhoCompleto);
+        if (!fs.existsSync(diretorio)) {
+          fs.mkdirSync(diretorio, { recursive: true });
+        }
+        
+        fs.writeFileSync(caminhoCompleto, conteudo, 'utf-8');
+        log(`   ✓ ${arquivo} (atualizado)`, 'verde');
+      } catch (erro) {
+        log(`   ✗ Erro ao atualizar ${arquivo}: ${erro.message}`, 'vermelho');
+      }
+    }
+    
+    // JSON: criar apenas se não existir
+    for (const arquivo of arquivosJson) {
+      try {
+        const caminhoCompleto = path.join(__dirname, arquivo);
+        
+        if (fs.existsSync(caminhoCompleto)) {
+          log(`   ⊘ ${arquivo} (já existe, não sobrescrito)`, 'amarelo');
+        } else {
+          const conteudo = execSync(`git show origin/main:${arquivo}`, { encoding: 'utf-8' });
+          const diretorio = path.dirname(caminhoCompleto);
+          if (!fs.existsSync(diretorio)) {
+            fs.mkdirSync(diretorio, { recursive: true });
+          }
+          fs.writeFileSync(caminhoCompleto, conteudo, 'utf-8');
+          log(`   ✓ ${arquivo} (criado)`, 'verde');
+        }
+      } catch (erro) {
+        log(`   ✗ Erro ao processar ${arquivo}: ${erro.message}`, 'vermelho');
+      }
+    }
+    
+    log('\n✅ Atualização concluída com sucesso!', 'verde');
+    log('Reinicie o bot para aplicar as mudanças.\n', 'azul');
+    
+  } catch (erro) {
+    log(`❌ Erro durante a atualização: ${erro.message}`, 'vermelho');
+    process.exit(1);
+  }
+}
+
+// Executar
+atualizar();
