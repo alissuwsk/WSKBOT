@@ -24,19 +24,22 @@ const pastasDoUsuario = [
 ];
 
 function ehArquivoDoBotASeAtualizar(caminhoArquivo) {
+  // NENHUM JSON é atualizado (todos são configurações/dados do usuário)
+  if (caminhoArquivo.endsWith('.json')) {
+    return false;
+  }
+  
   // JSONs em pastas de configuração do usuário NÃO atualiza
   for (const pasta of pastasDoUsuario) {
     if (caminhoArquivo.startsWith(pasta)) {
       return false;
     }
   }
-  // Apenas raiz e database/comands/menubuttons JSONs são atualizados
-  if (caminhoArquivo.endsWith('.json')) {
-    return caminhoArquivo === 'config.json' || 
-           caminhoArquivo === 'multiprefix.json' ||
-           caminhoArquivo.startsWith('database/comands/menubuttons');
-  }
-  return true;
+  
+  // Atualiza apenas .js, .md, .txt
+  return caminhoArquivo.endsWith('.js') || 
+         caminhoArquivo.endsWith('.md') || 
+         caminhoArquivo.endsWith('.txt');
 }
 
 async function atualizar() {
