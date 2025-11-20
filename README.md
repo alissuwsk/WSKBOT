@@ -45,7 +45,7 @@ cd /sdcard
 
 **Configure para abrir sempre neste diretório:**
 ```bash
-echo "cd /sdcard" >> ~/.bashrc
+echo "cd /sdcard/wskbot" >> ~/.bashrc
 ```
 
 Feche e abra o Termux novamente. Ele vai abrir direto na sdcard!
