@@ -29,19 +29,29 @@ async function atualizar() {
       return;
     }
     
-    const arquivos = diff.split('\n').filter(a => a.endsWith('.js') || a.endsWith('.json') || a.endsWith('.md') || a.endsWith('.txt'));
+    const todosArquivos = diff.split('\n').filter(a => a);
+    const arquivosAtualizar = todosArquivos.filter(a => a.endsWith('.js') || a.endsWith('.md') || a.endsWith('.txt'));
+    const arquivosJson = todosArquivos.filter(a => a.endsWith('.json'));
     
-    if (arquivos.length === 0) {
-      log('✅ Nenhum arquivo .js ou .json para atualizar', 'verde');
+    if (arquivosAtualizar.length === 0 && arquivosJson.length === 0) {
+      log('✅ Seu projeto já está atualizado!', 'verde');
       return;
     }
     
-    log(`\n📝 Arquivos que serão atualizados (${arquivos.length}):`, 'amarelo');
-    arquivos.forEach(arq => log(`   • ${arq}`, 'azul'));
+    if (arquivosAtualizar.length > 0) {
+      log(`\n📝 Arquivos que serão atualizados (${arquivosAtualizar.length}):`, 'amarelo');
+      arquivosAtualizar.forEach(arq => log(`   • ${arq}`, 'azul'));
+    }
     
-    log('\n⬇️  Atualizando arquivos...', 'amarelo');
+    if (arquivosJson.length > 0) {
+      log(`\n⚙️  Arquivos JSON (serão criados apenas se não existirem - ${arquivosJson.length}):`, 'amarelo');
+      arquivosJson.forEach(arq => log(`   • ${arq}`, 'azul'));
+    }
     
-    for (const arquivo of arquivos) {
+    log('\n⬇️  Processando arquivos...', 'amarelo');
+    
+    // Atualizar arquivos .js, .md, .txt
+    for (const arquivo of arquivosAtualizar) {
       try {
         const conteudo = execSync(`git show origin/main:${arquivo}`, { encoding: 'utf-8' });
         const caminhoCompleto = path.join(__dirname, arquivo);
@@ -53,9 +63,30 @@ async function atualizar() {
         }
         
         fs.writeFileSync(caminhoCompleto, conteudo, 'utf-8');
-        log(`   ✓ ${arquivo}`, 'verde');
+        log(`   ✓ ${arquivo} (atualizado)`, 'verde');
       } catch (erro) {
         log(`   ✗ Erro ao atualizar ${arquivo}: ${erro.message}`, 'vermelho');
+      }
+    }
+    
+    // JSON: criar apenas se não existir
+    for (const arquivo of arquivosJson) {
+      try {
+        const caminhoCompleto = path.join(__dirname, arquivo);
+        
+        if (fs.existsSync(caminhoCompleto)) {
+          log(`   ⊘ ${arquivo} (já existe, não sobrescrito)`, 'amarelo');
+        } else {
+          const conteudo = execSync(`git show origin/main:${arquivo}`, { encoding: 'utf-8' });
+          const diretorio = path.dirname(caminhoCompleto);
+          if (!fs.existsSync(diretorio)) {
+            fs.mkdirSync(diretorio, { recursive: true });
+          }
+          fs.writeFileSync(caminhoCompleto, conteudo, 'utf-8');
+          log(`   ✓ ${arquivo} (criado)`, 'verde');
+        }
+      } catch (erro) {
+        log(`   ✗ Erro ao processar ${arquivo}: ${erro.message}`, 'vermelho');
       }
     }
     
