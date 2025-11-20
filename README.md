@@ -347,7 +347,7 @@ npm start
 
 **Soluções adicionais:**
 - Verifique sua conexão de internet
-- Tente escanear o código QR novamente
+- Tente parear o codigo novamente.
 - Certifique-se de que o WhatsApp está ativo no seu celular
 
 ### Erro de API Key
