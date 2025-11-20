@@ -29,7 +29,7 @@ async function atualizar() {
       return;
     }
     
-    const arquivos = diff.split('\n').filter(a => a.endsWith('.js') || a.endsWith('.json'));
+    const arquivos = diff.split('\n').filter(a => a.endsWith('.js') || a.endsWith('.json') || a.endsWith('.md') || a.endsWith('.txt'));
     
     if (arquivos.length === 0) {
       log('✅ Nenhum arquivo .js ou .json para atualizar', 'verde');
