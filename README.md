@@ -17,7 +17,7 @@ Um bot WhatsApp completo e poderoso com suporte a múltiplos comandos, gerenciam
 - Git (para clonar o repositório)
 - FFmpeg (para processamento de áudio/vídeo)
 
-### 📱 Instalação no Termux (Android) - RECOMENDADO
+### 📱 Instalação no Termux (Android) 
 
 **1. Instale as dependências do sistema**
 e
