@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const https = require('https');
+const AdmZip = require('adm-zip');
 
 const cores = {
   reset: '\x1b[0m',
@@ -14,7 +16,7 @@ function log(msg, cor = 'reset') {
   console.log(`${cores[cor]}${msg}${cores.reset}`);
 }
 
-// Pastas que contêm dados/configurações do usuário (JSONs NÃO devem ser atualizados)
+// Pastas que contêm dados/configurações do usuário
 const pastasDoUsuario = [
   'database/saves',
   'database/diversao/gold',
@@ -24,41 +26,68 @@ const pastasDoUsuario = [
 ];
 
 function ehArquivoDoBotASeAtualizar(caminhoArquivo) {
-  // NENHUM JSON é atualizado (todos são configurações/dados do usuário)
   if (caminhoArquivo.endsWith('.json')) {
     return false;
   }
   
-  // JSONs em pastas de configuração do usuário NÃO atualiza
   for (const pasta of pastasDoUsuario) {
     if (caminhoArquivo.startsWith(pasta)) {
       return false;
     }
   }
   
-  // Atualiza apenas .js, .md, .txt
   return caminhoArquivo.endsWith('.js') || 
          caminhoArquivo.endsWith('.md') || 
          caminhoArquivo.endsWith('.txt');
 }
 
-async function atualizar() {
+function ehRepositorioGit() {
   try {
-    log('\n📦 Iniciando atualização...', 'azul');
-    
-    // Configurar git para Termux - tenta com git -C no diretório
+    execSync('git rev-parse --git-dir', { stdio: 'pipe' });
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// Download de arquivo via HTTPS
+function downloadArquivo(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, (res) => {
+      if (res.statusCode === 302 || res.statusCode === 301) {
+        return downloadArquivo(res.headers.location).then(resolve).catch(reject);
+      }
+      
+      if (res.statusCode !== 200) {
+        reject(new Error(`Status ${res.statusCode}`));
+        return;
+      }
+      
+      const chunks = [];
+      res.on('data', chunk => chunks.push(chunk));
+      res.on('end', () => resolve(Buffer.concat(chunks)));
+    }).on('error', reject);
+  });
+}
+
+// Atualização via Git (para quem clonou)
+async function atualizarViaGit() {
+  try {
     const repoPath = __dirname;
     try {
       execSync(`git -C "${repoPath}" config safe.directory "${repoPath}"`, { stdio: 'pipe' });
     } catch (e) {
-      // Ignorar erro se já estiver configurado
+      // Ignorar se já configurado
     }
     
     log('🔄 Verificando mudanças no GitHub...', 'amarelo');
     execSync('git fetch origin main', { stdio: 'inherit' });
     
     log('📊 Comparando versões...', 'amarelo');
-    const diff = execSync('git diff --name-only --no-renames origin/main', { encoding: 'utf-8', maxBuffer: 10 * 1024 * 1024 }).trim();
+    const diff = execSync('git diff --name-only --no-renames origin/main', { 
+      encoding: 'utf-8', 
+      maxBuffer: 10 * 1024 * 1024 
+    }).trim();
     
     if (!diff) {
       log('✅ Seu projeto já está atualizado!', 'verde');
@@ -66,7 +95,6 @@ async function atualizar() {
     }
     
     const todosArquivos = diff.split('\n').filter(a => a);
-    // Filtrar apenas arquivos que DEVEM ser atualizados
     const arquivosAtualizaveis = todosArquivos.filter(ehArquivoDoBotASeAtualizar);
     
     if (arquivosAtualizaveis.length === 0) {
@@ -76,13 +104,14 @@ async function atualizar() {
     
     log(`⬇️  Atualizando ${arquivosAtualizaveis.length} arquivo(s)...`, 'amarelo');
     
-    // Atualizar apenas arquivos selecionados
     for (const arquivo of arquivosAtualizaveis) {
       try {
-        const conteudo = execSync(`git show origin/main:${arquivo}`, { encoding: 'utf-8', maxBuffer: 10 * 1024 * 1024 });
+        const conteudo = execSync(`git show origin/main:${arquivo}`, { 
+          encoding: 'utf-8', 
+          maxBuffer: 10 * 1024 * 1024 
+        });
         const caminhoCompleto = path.join(__dirname, arquivo);
         
-        // Criar diretório se não existir
         const diretorio = path.dirname(caminhoCompleto);
         if (!fs.existsSync(diretorio)) {
           fs.mkdirSync(diretorio, { recursive: true });
@@ -99,7 +128,115 @@ async function atualizar() {
     log('Reinicie o bot para aplicar as mudanças.\n', 'azul');
     
   } catch (erro) {
+    throw erro;
+  }
+}
+
+// Atualização via ZIP (para quem baixou ZIP)
+async function atualizarViaZip() {
+  try {
+    const owner = 'alissuwsk';
+    const repo = 'WSKBOT';
+    const branch = 'main';
+    
+    log('🔄 Baixando última versão do GitHub...', 'amarelo');
+    
+    const zipUrl = `https://github.com/${owner}/${repo}/archive/refs/heads/${branch}.zip`;
+    const zipBuffer = await downloadArquivo(zipUrl);
+    
+    log('📦 Extraindo arquivos...', 'amarelo');
+    
+    const zip = new AdmZip(zipBuffer);
+    const zipEntries = zip.getEntries();
+    
+    let arquivosAtualizados = 0;
+    let arquivosNovos = 0;
+    
+    log('📊 Verificando atualizações...', 'amarelo');
+    
+    for (const entry of zipEntries) {
+      if (entry.isDirectory) continue;
+      
+      // Remover prefixo do nome da pasta do ZIP (ex: WSKBOT-main/)
+      let caminhoArquivo = entry.entryName;
+      const primeiraBarraIndex = caminhoArquivo.indexOf('/');
+      if (primeiraBarraIndex !== -1) {
+        caminhoArquivo = caminhoArquivo.substring(primeiraBarraIndex + 1);
+      }
+      
+      if (!caminhoArquivo) continue;
+      
+      // Verificar se deve atualizar este arquivo
+      if (!ehArquivoDoBotASeAtualizar(caminhoArquivo)) {
+        continue;
+      }
+      
+      const caminhoCompleto = path.join(__dirname, caminhoArquivo);
+      const conteudoNovo = entry.getData();
+      
+      // Verificar se arquivo existe localmente
+      if (fs.existsSync(caminhoCompleto)) {
+        const conteudoLocal = fs.readFileSync(caminhoCompleto);
+        
+        // Comparar conteúdos
+        if (Buffer.compare(conteudoLocal, conteudoNovo) === 0) {
+          continue; // Arquivo não mudou
+        }
+        
+        // Atualizar arquivo
+        const diretorio = path.dirname(caminhoCompleto);
+        if (!fs.existsSync(diretorio)) {
+          fs.mkdirSync(diretorio, { recursive: true });
+        }
+        
+        fs.writeFileSync(caminhoCompleto, conteudoNovo);
+        log(`   ✓ ${caminhoArquivo} (atualizado)`, 'verde');
+        arquivosAtualizados++;
+      } else {
+        // Arquivo novo
+        const diretorio = path.dirname(caminhoCompleto);
+        if (!fs.existsSync(diretorio)) {
+          fs.mkdirSync(diretorio, { recursive: true });
+        }
+        
+        fs.writeFileSync(caminhoCompleto, conteudoNovo);
+        log(`   ✓ ${caminhoArquivo} (novo)`, 'azul');
+        arquivosNovos++;
+      }
+    }
+    
+    if (arquivosAtualizados === 0 && arquivosNovos === 0) {
+      log('✅ Seu projeto já está atualizado!', 'verde');
+    } else {
+      if (arquivosAtualizados > 0) {
+        log(`\n✅ ${arquivosAtualizados} arquivo(s) atualizado(s)`, 'verde');
+      }
+      if (arquivosNovos > 0) {
+        log(`✅ ${arquivosNovos} arquivo(s) novo(s) adicionado(s)`, 'verde');
+      }
+      log('Reinicie o bot para aplicar as mudanças.\n', 'azul');
+    }
+    
+  } catch (erro) {
+    throw erro;
+  }
+}
+
+async function atualizar() {
+  try {
+    log('\n📦 Iniciando atualização...', 'azul');
+    
+    if (ehRepositorioGit()) {
+      log('📂 Repositório Git detectado', 'azul');
+      await atualizarViaGit();
+    } else {
+      log('📦 Projeto baixado via ZIP detectado', 'azul');
+      await atualizarViaZip();
+    }
+    
+  } catch (erro) {
     log(`❌ Erro durante a atualização: ${erro.message}`, 'vermelho');
+    log('\n💡 Verifique sua conexão com a internet e tente novamente.', 'amarelo');
     process.exit(1);
   }
 }
