@@ -16,7 +16,7 @@ function log(msg, cor = 'reset') {
 }
 
 // Configuração do repositório
-const REPO_OWNER = 'seu-usuario'; // ALTERE AQUI
+const REPO_OWNER = 'alissuwsk'; // ALTERE AQUI
 const REPO_NAME = 'WSKBOT'; // ALTERE AQUI
 const BRANCH = 'main';
 
@@ -249,3 +249,4 @@ async function atualizar() {
 
 // Executar
 atualizar();
+
