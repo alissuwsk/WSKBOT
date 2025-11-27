@@ -26,8 +26,13 @@ const pastasDoUsuario = [
   'database/QRCODE'
 ];
 
+
 function ehArquivoDoBotASeAtualizar(caminhoArquivo) {
   if (caminhoArquivo.endsWith('.json')) {
+    return false;
+  }
+  // IGNORAR NODE_MODULES
+  if (caminhoArquivo.startsWith('node_modules/')) {
     return false;
   }
   
@@ -402,3 +407,4 @@ async function atualizar() {
 
 // Executar
 atualizar();
+
