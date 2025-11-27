@@ -205,7 +205,7 @@ async function atualizarViaGit() {
     execSync('git fetch origin main', { stdio: 'inherit' });
     
     log('📊 Comparando versões...', 'amarelo');
-    const diff = execSync('git diff --name-only --no-renames origin/main', { 
+    const diff = execSync('git diff --name-only HEAD origin/main', {
       encoding: 'utf-8', 
       maxBuffer: 10 * 1024 * 1024 
     }).trim();
