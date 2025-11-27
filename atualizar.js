@@ -130,13 +130,10 @@ async function converterParaGit() {
     log('   Baixando histórico do repositório...', 'amarelo');
     execSync(`git fetch origin ${branch}`, { stdio: 'pipe', maxBuffer: 50 * 1024 * 1024 });
     
-    // Configurar branch para rastrear origin
+    // Configurar branch para rastrear origin e fazer checkout
     log('   Configurando branch principal...', 'amarelo');
-    execSync(`git checkout -b ${branch}`, { stdio: 'pipe' });
-    execSync(`git branch --set-upstream-to=origin/${branch} ${branch}`, { stdio: 'pipe' });
-    
-    // Resetar para o estado remoto, mas manter arquivos locais
-    execSync('git reset origin/main', { stdio: 'pipe' });
+    execSync(`git branch ${branch} origin/${branch}`, { stdio: 'pipe' });
+    execSync(`git checkout ${branch}`, { stdio: 'pipe' });
     
     log('✅ Projeto convertido para Git com sucesso!', 'verde');
     log('   As próximas atualizações serão instantâneas! 🚀\n', 'verde');
