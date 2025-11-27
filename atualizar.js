@@ -51,6 +51,29 @@ function ehRepositorioGit() {
   }
 }
 
+function ehRepositorioGitValido() {
+  try {
+    // Verificar se .git existe
+    execSync('git rev-parse --git-dir', { stdio: 'pipe' });
+    
+    // Verificar se tem remote configurado
+    const remotes = execSync('git remote', { encoding: 'utf-8', stdio: 'pipe' }).trim();
+    if (!remotes) {
+      return false;
+    }
+    
+    // Verificar se o remote origin existe
+    try {
+      execSync('git remote get-url origin', { stdio: 'pipe' });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  } catch (e) {
+    return false;
+  }
+}
+
 function gitEstaInstalado() {
   try {
     execSync('git --version', { stdio: 'pipe' });
@@ -80,21 +103,28 @@ async function converterParaGit() {
       // Ignorar erros de limpeza
     }
     
+    // Configurar safe directory ANTES de qualquer operação Git
+    const repoPath = path.resolve(__dirname);
+    try {
+      execSync(`git config --global --add safe.directory "${repoPath}"`, { stdio: 'pipe' });
+    } catch (e) {
+      // Ignorar se já configurado
+    }
+    
     // Inicializar repositório Git
     log('   Inicializando repositório...', 'amarelo');
     execSync('git init', { stdio: 'pipe' });
     
+    // Configurar diretório como seguro localmente também
+    try {
+      execSync(`git config --add safe.directory "${repoPath}"`, { stdio: 'pipe' });
+    } catch (e) {
+      // Ignorar
+    }
+    
     // Adicionar remote
     log('   Conectando ao GitHub...', 'amarelo');
     execSync(`git remote add origin https://github.com/${owner}/${repo}.git`, { stdio: 'pipe' });
-    
-    // Configurar safe directory
-    const repoPath = __dirname;
-    try {
-      execSync(`git config safe.directory "${repoPath}"`, { stdio: 'pipe' });
-    } catch (e) {
-      // Ignorar se já configurado
-    }
     
     // Fazer fetch do repositório
     log('   Baixando histórico do repositório...', 'amarelo');
@@ -319,8 +349,32 @@ async function atualizar() {
     log('\n📦 Iniciando atualização...', 'azul');
     
     if (ehRepositorioGit()) {
-      log('📂 Repositório Git detectado', 'azul');
-      await atualizarViaGit();
+      // Verificar se o repositório Git é válido
+      if (ehRepositorioGitValido()) {
+        log('📂 Repositório Git detectado', 'azul');
+        await atualizarViaGit();
+      } else {
+        log('⚠️  Repositório Git corrompido detectado', 'amarelo');
+        log('🔧 Reconfigurando repositório...', 'amarelo');
+        
+        // Remover .git corrompido
+        try {
+          if (fs.existsSync('.git')) {
+            fs.rmSync('.git', { recursive: true, force: true });
+          }
+        } catch (e) {
+          log(`   Erro ao limpar .git: ${e.message}`, 'vermelho');
+        }
+        
+        // Atualizar via ZIP e converter
+        if (gitEstaInstalado()) {
+          log('💡 Git instalado - vou converter para Git após a atualização!', 'magenta');
+        } else {
+          log('📦 Projeto baixado via ZIP detectado', 'azul');
+          log('💡 Dica: Instale o Git para atualizações mais rápidas!', 'amarelo');
+        }
+        await atualizarViaZip();
+      }
     } else {
       if (gitEstaInstalado()) {
         log('📦 Projeto baixado via ZIP detectado', 'azul');
