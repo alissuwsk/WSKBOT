@@ -205,25 +205,10 @@ async function atualizarViaGit() {
     execSync('git fetch origin main', { stdio: 'inherit' });
     
     log('📊 Comparando versões...', 'amarelo');
-
-let diff = '';
-
-try {
-  // Tenta comparar usando HEAD (se existir)
-  diff = execSync('git diff --name-only --diff-filter=AM HEAD origin/main', {
-    encoding: 'utf-8',
-    maxBuffer: 10 * 1024 * 1024
-  }).trim();
-} catch (e) {
-  // Se HEAD não existir ou projeto veio de ZIP → compara arquivos diretamente
-  log('⚠️ HEAD não encontrado → comparando arquivos manualmente...', 'amarelo');
-
-  diff = execSync('git diff --name-only --diff-filter=AM origin/main', {
-    encoding: 'utf-8',
-    maxBuffer: 10 * 1024 * 1024
-  }).trim();
-}
-
+    const diff = execSync('git diff --name-only --no-renames origin/main', { 
+      encoding: 'utf-8', 
+      maxBuffer: 10 * 1024 * 1024 
+    }).trim();
     
     if (!diff) {
       log('✅ Seu projeto já está atualizado!', 'verde');
@@ -422,3 +407,4 @@ async function atualizar() {
 
 // Executar
 atualizar();
+
