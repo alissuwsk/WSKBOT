@@ -407,4 +407,3 @@ async function atualizar() {
 
 // Executar
 atualizar();
-
