@@ -130,10 +130,20 @@ async function converterParaGit() {
     log('   Baixando histórico do repositório...', 'amarelo');
     execSync(`git fetch origin ${branch}`, { stdio: 'pipe', maxBuffer: 50 * 1024 * 1024 });
     
-    // Configurar branch para rastrear origin e fazer checkout
-    log('   Configurando branch principal...', 'amarelo');
-    execSync(`git branch ${branch} origin/${branch}`, { stdio: 'pipe' });
-    execSync(`git checkout ${branch}`, { stdio: 'pipe' });
+    // Configurar usuário Git (necessário para merge)
+    log('   Configurando Git...', 'amarelo');
+    try {
+      execSync('git config user.name "WSKBOT"', { stdio: 'pipe' });
+      execSync('git config user.email "bot@wskbot.local"', { stdio: 'pipe' });
+    } catch (e) {
+      // Ignorar erros
+    }
+    
+    // Resetar para origin/main (aceitar todas as mudanças remotas)
+    log('   Sincronizando com repositório...', 'amarelo');
+    execSync(`git reset --hard origin/${branch}`, { stdio: 'pipe' });
+    execSync(`git checkout -b ${branch} 2>/dev/null || git checkout ${branch}`, { stdio: 'pipe' });
+    execSync(`git branch --set-upstream-to=origin/${branch}`, { stdio: 'pipe' });
     
     log('✅ Projeto convertido para Git com sucesso!', 'verde');
     log('   As próximas atualizações serão instantâneas! 🚀\n', 'verde');
