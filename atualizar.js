@@ -70,10 +70,22 @@ async function converterParaGit() {
     log('\n🔧 Convertendo para repositório Git...', 'magenta');
     log('   Isso vai deixar as próximas atualizações MUITO mais rápidas!', 'amarelo');
     
+    // Limpar configurações anteriores se existirem
+    try {
+      if (fs.existsSync('.git')) {
+        log('   Limpando configuração Git anterior...', 'amarelo');
+        fs.rmSync('.git', { recursive: true, force: true });
+      }
+    } catch (e) {
+      // Ignorar erros de limpeza
+    }
+    
     // Inicializar repositório Git
+    log('   Inicializando repositório...', 'amarelo');
     execSync('git init', { stdio: 'pipe' });
     
     // Adicionar remote
+    log('   Conectando ao GitHub...', 'amarelo');
     execSync(`git remote add origin https://github.com/${owner}/${repo}.git`, { stdio: 'pipe' });
     
     // Configurar safe directory
@@ -86,21 +98,33 @@ async function converterParaGit() {
     
     // Fazer fetch do repositório
     log('   Baixando histórico do repositório...', 'amarelo');
-    execSync(`git fetch origin ${branch}`, { stdio: 'pipe' });
+    execSync(`git fetch origin ${branch}`, { stdio: 'pipe', maxBuffer: 50 * 1024 * 1024 });
     
-    // Fazer checkout da branch
-    execSync(`git checkout -b ${branch} origin/${branch}`, { stdio: 'pipe' });
+    // Configurar branch para rastrear origin
+    log('   Configurando branch principal...', 'amarelo');
+    execSync(`git checkout -b ${branch}`, { stdio: 'pipe' });
+    execSync(`git branch --set-upstream-to=origin/${branch} ${branch}`, { stdio: 'pipe' });
     
-    // Resetar para manter arquivos locais
-    execSync('git reset --soft', { stdio: 'pipe' });
+    // Resetar para o estado remoto, mas manter arquivos locais
+    execSync('git reset origin/main', { stdio: 'pipe' });
     
     log('✅ Projeto convertido para Git com sucesso!', 'verde');
     log('   As próximas atualizações serão instantâneas! 🚀\n', 'verde');
     
     return true;
   } catch (erro) {
-    log(`⚠️  Não foi possível converter para Git: ${erro.message}`, 'amarelo');
-    log('   Continuando com método ZIP...\n', 'amarelo');
+    log(`⚠️  Erro ao converter para Git:`, 'amarelo');
+    log(`   ${erro.message}`, 'vermelho');
+    
+    // Limpar .git se falhou
+    try {
+      if (fs.existsSync('.git')) {
+        fs.rmSync('.git', { recursive: true, force: true });
+      }
+    } catch (e) {
+      // Ignorar
+    }
+    
     return false;
   }
 }
@@ -273,9 +297,16 @@ async function atualizarViaZip() {
       log('Reinicie o bot para aplicar as mudanças.\n', 'azul');
     }
     
-    // Tentar converter para Git após atualização bem-sucedida
-    if (gitEstaInstalado() && (arquivosAtualizados > 0 || arquivosNovos > 0)) {
-      await converterParaGit();
+    // Sempre tentar converter para Git se possível
+    if (gitEstaInstalado()) {
+      const convertido = await converterParaGit();
+      if (!convertido) {
+        log('⚠️  Continuará usando método ZIP nas próximas atualizações.', 'amarelo');
+      }
+    } else {
+      log('\n💡 Dica: Instale o Git para atualizações mais rápidas!', 'amarelo');
+      log('   Windows: https://git-scm.com/download/win', 'azul');
+      log('   Linux: sudo apt install git\n', 'azul');
     }
     
   } catch (erro) {
