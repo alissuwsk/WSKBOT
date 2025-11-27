@@ -9,7 +9,8 @@ const cores = {
   verde: '\x1b[32m',
   vermelho: '\x1b[31m',
   amarelo: '\x1b[33m',
-  azul: '\x1b[36m'
+  azul: '\x1b[36m',
+  magenta: '\x1b[35m'
 };
 
 function log(msg, cor = 'reset') {
@@ -46,6 +47,60 @@ function ehRepositorioGit() {
     execSync('git rev-parse --git-dir', { stdio: 'pipe' });
     return true;
   } catch (e) {
+    return false;
+  }
+}
+
+function gitEstaInstalado() {
+  try {
+    execSync('git --version', { stdio: 'pipe' });
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// Converter projeto ZIP para repositório Git
+async function converterParaGit() {
+  try {
+    const owner = 'alissuwsk';
+    const repo = 'WSKBOT';
+    const branch = 'main';
+    
+    log('\n🔧 Convertendo para repositório Git...', 'magenta');
+    log('   Isso vai deixar as próximas atualizações MUITO mais rápidas!', 'amarelo');
+    
+    // Inicializar repositório Git
+    execSync('git init', { stdio: 'pipe' });
+    
+    // Adicionar remote
+    execSync(`git remote add origin https://github.com/${owner}/${repo}.git`, { stdio: 'pipe' });
+    
+    // Configurar safe directory
+    const repoPath = __dirname;
+    try {
+      execSync(`git config safe.directory "${repoPath}"`, { stdio: 'pipe' });
+    } catch (e) {
+      // Ignorar se já configurado
+    }
+    
+    // Fazer fetch do repositório
+    log('   Baixando histórico do repositório...', 'amarelo');
+    execSync(`git fetch origin ${branch}`, { stdio: 'pipe' });
+    
+    // Fazer checkout da branch
+    execSync(`git checkout -b ${branch} origin/${branch}`, { stdio: 'pipe' });
+    
+    // Resetar para manter arquivos locais
+    execSync('git reset --soft', { stdio: 'pipe' });
+    
+    log('✅ Projeto convertido para Git com sucesso!', 'verde');
+    log('   As próximas atualizações serão instantâneas! 🚀\n', 'verde');
+    
+    return true;
+  } catch (erro) {
+    log(`⚠️  Não foi possível converter para Git: ${erro.message}`, 'amarelo');
+    log('   Continuando com método ZIP...\n', 'amarelo');
     return false;
   }
 }
@@ -125,6 +180,7 @@ async function atualizarViaGit() {
     }
     
     log('\n✅ Atualização concluída com sucesso!', 'verde');
+    log('⚡ Próximas atualizações serão instantâneas!', 'verde');
     log('Reinicie o bot para aplicar as mudanças.\n', 'azul');
     
   } catch (erro) {
@@ -217,6 +273,11 @@ async function atualizarViaZip() {
       log('Reinicie o bot para aplicar as mudanças.\n', 'azul');
     }
     
+    // Tentar converter para Git após atualização bem-sucedida
+    if (gitEstaInstalado() && (arquivosAtualizados > 0 || arquivosNovos > 0)) {
+      await converterParaGit();
+    }
+    
   } catch (erro) {
     throw erro;
   }
@@ -230,7 +291,13 @@ async function atualizar() {
       log('📂 Repositório Git detectado', 'azul');
       await atualizarViaGit();
     } else {
-      log('📦 Projeto baixado via ZIP detectado', 'azul');
+      if (gitEstaInstalado()) {
+        log('📦 Projeto baixado via ZIP detectado', 'azul');
+        log('💡 Git instalado - vou converter para Git após a atualização!', 'magenta');
+      } else {
+        log('📦 Projeto baixado via ZIP detectado', 'azul');
+        log('💡 Dica: Instale o Git para atualizações mais rápidas!', 'amarelo');
+      }
       await atualizarViaZip();
     }
     
