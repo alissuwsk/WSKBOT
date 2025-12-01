@@ -64,31 +64,13 @@ cd wskbot
 npm install --cpu=wasm32 sharp
 ```
 
-**4. Configure a API Key** (`utils/key.json`)
+**4. Configure a API Key e o as Configurações**
 ```bash
-nano utils/key.json
-```
-Adicione:
-```json
-{
-  "apiKey": "sua_chave_aqui",
-  "note": "Obtenha sua key em: https://wsksystem.com"
-}
-```
+Essa configuração é feita de forma MANUAL usando um gerenciador de arquivos
 
-**5. Configure o Bot** (`config.json`)
-```bash
-nano config.json
-```
-Adicione:
-```json
-{
-  "prefix": "!",
-  "ownerNumber": "5528999576743",
-  "ownerName": "Seu Nome",
-  "botName": "WSK BOT",
-  "lidbot": ""
-}
+Ira configurar o arquivo `key.json` em /utils e config.json na raiz do bot
+aconcelho o uso do Zarchiver, encontrado facilmente na PlayStore.
+
 ```
 
 **6. Inicie o Bot**
