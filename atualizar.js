@@ -227,7 +227,7 @@ async function atualizarViaGit() {
     
     for (const arquivo of arquivosAtualizaveis) {
       try {
-        const conteudo = execSync(`git show origin/main:${arquivo}`, { 
+        const conteudo = execSync(`git show "origin/main:${arquivo}"`, { 
           encoding: 'utf-8', 
           maxBuffer: 10 * 1024 * 1024 
         });
