@@ -111,44 +111,64 @@ async function converterParaGit() {
     // Configurar safe directory ANTES de qualquer operação Git
     const repoPath = path.resolve(__dirname);
     try {
-      execSync(`git config --global --add safe.directory "${repoPath}"`, { stdio: 'pipe' });
+      execSync(`git config --global --add safe.directory "${repoPath}"`, { stdio: 'pipe', timeout: 5000 });
     } catch (e) {
       // Ignorar se já configurado
     }
     
     // Inicializar repositório Git
     log('   Inicializando repositório...', 'amarelo');
-    execSync('git init', { stdio: 'pipe' });
+    execSync('git init', { stdio: 'pipe', timeout: 10000 });
+    
+    // Criar .gitignore para ignorar node_modules
+    const gitignoreContent = `node_modules/
+*.log
+.env
+.DS_Store
+`;
+    fs.writeFileSync('.gitignore', gitignoreContent, 'utf-8');
     
     // Configurar diretório como seguro localmente também
     try {
-      execSync(`git config --add safe.directory "${repoPath}"`, { stdio: 'pipe' });
+      execSync(`git config --add safe.directory "${repoPath}"`, { stdio: 'pipe', timeout: 5000 });
     } catch (e) {
       // Ignorar
     }
     
     // Adicionar remote
     log('   Conectando ao GitHub...', 'amarelo');
-    execSync(`git remote add origin https://github.com/${owner}/${repo}.git`, { stdio: 'pipe' });
+    execSync(`git remote add origin https://github.com/${owner}/${repo}.git`, { stdio: 'pipe', timeout: 10000 });
     
     // Fazer fetch do repositório
     log('   Baixando histórico do repositório...', 'amarelo');
-    execSync(`git fetch origin ${branch}`, { stdio: 'pipe', maxBuffer: 50 * 1024 * 1024 });
+    execSync(`git fetch origin ${branch}`, { stdio: 'pipe', maxBuffer: 50 * 1024 * 1024, timeout: 60000 });
     
     // Configurar usuário Git (necessário para merge)
     log('   Configurando Git...', 'amarelo');
     try {
-      execSync('git config user.name "WSKBOT"', { stdio: 'pipe' });
-      execSync('git config user.email "bot@wskbot.local"', { stdio: 'pipe' });
+      execSync('git config user.name "WSKBOT"', { stdio: 'pipe', timeout: 5000 });
+      execSync('git config user.email "bot@wskbot.local"', { stdio: 'pipe', timeout: 5000 });
     } catch (e) {
       // Ignorar erros
     }
     
     // Resetar para origin/main (aceitar todas as mudanças remotas)
     log('   Sincronizando com repositório...', 'amarelo');
-    execSync(`git reset --hard origin/${branch}`, { stdio: 'pipe' });
-    execSync(`git checkout -b ${branch} 2>/dev/null || git checkout ${branch}`, { stdio: 'pipe' });
-    execSync(`git branch --set-upstream-to=origin/${branch}`, { stdio: 'pipe' });
+    execSync(`git reset --hard origin/${branch}`, { stdio: 'pipe', timeout: 30000 });
+    
+    // Tentar criar branch ou fazer checkout (separado para melhor controle)
+    try {
+      execSync(`git checkout ${branch}`, { stdio: 'pipe', timeout: 10000 });
+    } catch (e) {
+      // Se falhar, criar nova branch
+      try {
+        execSync(`git checkout -b ${branch}`, { stdio: 'pipe', timeout: 10000 });
+      } catch (e2) {
+        // Ignorar se já existe
+      }
+    }
+    
+    execSync(`git branch --set-upstream-to=origin/${branch}`, { stdio: 'pipe', timeout: 10000 });
     
     log('✅ Projeto convertido para Git com sucesso!', 'verde');
     log('   As próximas atualizações serão instantâneas! 🚀\n', 'verde');
