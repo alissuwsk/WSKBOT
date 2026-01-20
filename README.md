@@ -62,11 +62,6 @@ git clone https://github.com/alissuwsk/wskbot.git
 cd wskbot
 ```
 
-**Instale as dependências (com suporte a Termux):**
-```bash
-npm install --cpu=wasm32 sharp
-```
-
 **4. Configure a API Key e o as Configurações**
 ```bash
 Essa configuração é feita de forma MANUAL usando um gerenciador de arquivos
