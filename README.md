@@ -1,4 +1,7 @@
-# 🤖 WSK BOT - 1.0
+
+<img width="1536" height="1024" alt="WSKBANNER" src="https://github.com/user-attachments/assets/1d5b0094-a978-4558-aa8b-22935660332b" />
+
+# 🤖 WSK BOT - 2.0
 
 Um bot WhatsApp completo e poderoso com suporte a múltiplos comandos, gerenciamento de grupos, downloads de mídia, processamento de áudio/vídeo e muito mais!
 
