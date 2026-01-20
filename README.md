@@ -100,7 +100,6 @@ sudo apt install nodejs npm git ffmpeg -y
 ```bash
 git clone https://github.com/alissuwsk/wskbot.git
 cd wskbot
-npm install
 ```
 
 **4. Configure a API Key e Bot**
