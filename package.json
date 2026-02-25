@@ -2,9 +2,10 @@
   "name": "wskbot",
   "version": "2.0.0",
   "description": "WSK BOT V2 entrega novos sistema de administração de grupos e bugs corrigidos.",
-  "main": "index.js",
+  "main": "start.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node start.js",
+    "start:manual": "node start.js"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.0",
