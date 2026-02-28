@@ -5,7 +5,7 @@
 
 Um bot WhatsApp completo e poderoso com suporte a múltiplos comandos, gerenciamento de grupos, downloads de mídia, processamento de áudio/vídeo e muito mais!
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Version](https://img.shields.io/badge/version-2.0.0-blue)
 ![License](https://img.shields.io/badge/license-ISC-green)
 ![Node](https://img.shields.io/badge/node-%3E%3D22.0.0-brightgreen)
 ![Status](https://img.shields.io/badge/status-ativo-success)
